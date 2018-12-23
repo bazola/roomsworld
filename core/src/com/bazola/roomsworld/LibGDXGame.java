@@ -1,17 +1,21 @@
 package com.bazola.roomsworld;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bazola.roomsworld.camera.SmoothCamera;
+import com.bazola.roomsworld.gamemodel.TileType;
 
-public class LibGDXGame extends ApplicationAdapter {
+public class LibGDXGame extends Game {
 
     public static float STAGE_WIDTH;
     public static float STAGE_HEIGHT;
@@ -27,9 +31,12 @@ public class LibGDXGame extends ApplicationAdapter {
 	public SpriteBatch hudBatch;
 	public Stage hudStage;
 	
-	public InputMultiplexer inputHandler = new InputMultiplexer();
+	public RoomDrawer drawer;
+	private GameScreen gameScreen;
 	
-	Texture img;
+	public InputMultiplexer inputHandler = new InputMultiplexer();
+
+	public ObjectMap<TileType, TextureRegion> atlasTextures;
 	
 	@Override
 	public void create () {
@@ -49,36 +56,68 @@ public class LibGDXGame extends ApplicationAdapter {
         this.hudBatch = new SpriteBatch();
         this.hudStage = new Stage(new ScreenViewport(hudCamera), hudBatch);
         
-        img = new Texture("badlogic.jpg");
+        this.loadAssets();
         
         this.configureInputHandlers();
+        
+        this.startGame();
 	}
 	
-	   private void configureInputHandlers() {
-	        //this.inputHandler.addProcessor(this.buttonStage);
-	        this.inputHandler.addProcessor(this.hudStage); 
-	        this.inputHandler.addProcessor(this.stage);
-	        //this.inputHandler.addProcessor(this.flagStage);
-	        
-	        /*
-	        this.cameraPanner = new CameraPanner(this.camera);
-	        this.cameraPanner.setEnabled(true);
-	        //this.cameraPanner.setParallaxCamera(this.parallaxCamera);
-	        
-	        this.pinchZoomer = new PinchZoomer(this.camera);
-	        this.pinchZoomer.setEnabled(true);
-	        //this.pinchZoomer.setParallaxCamera(this.parallaxCamera);
-	        
-	        this.scrollWheelZoomer = new ScrollWheelZoomer(this.camera);
-	        this.scrollWheelZoomer.setEnabled(true);
-	        //this.scrollWheelZoomer.setParallaxCamera(this.parallaxCamera);
-	        
-	        this.inputHandler.addProcessor(new GestureDetector(this.cameraPanner));
-	        this.inputHandler.addProcessor(new GestureDetector(this.pinchZoomer));
-	        this.inputHandler.addProcessor(this.scrollWheelZoomer);
-	        */
-	        Gdx.input.setInputProcessor(this.inputHandler);
-	    }
+    private void loadAssets()
+    {
+        this.atlasTextures = this.loadAtlasTextures();
+    }
+    
+    private ObjectMap<TileType, TextureRegion> loadAtlasTextures() {
+        ObjectMap<TileType, TextureRegion> textures = new ObjectMap<TileType, TextureRegion>();
+        TextureAtlas atlas = new TextureAtlas("roomsworld01.atlas");
+        for (TileType type : TileType.values()) {
+            AtlasRegion region = atlas.findRegion(type.path);
+            TextureRegion textureRegion = region;
+            textures.put(type, textureRegion);
+        }
+        return textures;
+    }
+    
+    private void configureInputHandlers() {
+        //this.inputHandler.addProcessor(this.buttonStage);
+        this.inputHandler.addProcessor(this.hudStage); 
+        this.inputHandler.addProcessor(this.stage);
+        //this.inputHandler.addProcessor(this.flagStage);
+        
+        /*
+        this.cameraPanner = new CameraPanner(this.camera);
+        this.cameraPanner.setEnabled(true);
+        //this.cameraPanner.setParallaxCamera(this.parallaxCamera);
+        
+        this.pinchZoomer = new PinchZoomer(this.camera);
+        this.pinchZoomer.setEnabled(true);
+        //this.pinchZoomer.setParallaxCamera(this.parallaxCamera);
+        
+        this.scrollWheelZoomer = new ScrollWheelZoomer(this.camera);
+        this.scrollWheelZoomer.setEnabled(true);
+        //this.scrollWheelZoomer.setParallaxCamera(this.parallaxCamera);
+        
+        this.inputHandler.addProcessor(new GestureDetector(this.cameraPanner));
+        this.inputHandler.addProcessor(new GestureDetector(this.pinchZoomer));
+        this.inputHandler.addProcessor(this.scrollWheelZoomer);
+        */
+        Gdx.input.setInputProcessor(this.inputHandler);
+    }
+    
+    public void startGame() {
+        //this.previousPageViewed = pageNumber;
+        //this.menuScreen = null;
+        //this.parallaxCamera.setPosition(0, 0, 0);
+        this.drawer = null;
+        //this.personDrawer = null;
+        this.stage.clear();
+        this.hudStage.clear();
+        //this.buttonStage.clear();
+        
+        this.gameScreen = new GameScreen(this);
+        this.setScreen(this.gameScreen);
+    }
 
 	@Override
 	public void render () {
@@ -90,10 +129,12 @@ public class LibGDXGame extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        /*
+        
         if (this.drawer != null) {
             this.drawer.draw(delta);
         }
+        
+        /*
         if (this.personDrawer != null) {
             this.personDrawer.draw(delta);
         }
@@ -101,9 +142,7 @@ public class LibGDXGame extends ApplicationAdapter {
             this.particleDrawer.draw(delta);
         }
         */
-        
-        batch.draw(img, 0, 0, STAGE_WIDTH, STAGE_HEIGHT);
-        
+
         batch.end();
         //if (this.gameScreen != null) {
         //    if (this.gameScreen.getGameState() != GameState.PAUSED &&
@@ -125,6 +164,5 @@ public class LibGDXGame extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 }
