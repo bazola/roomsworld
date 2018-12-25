@@ -3,7 +3,6 @@ package com.bazola.roomsworld.camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
-import com.bazola.roomsworld.gamemodel.MapPoint;
 
 public class SmoothCamera extends OrthographicCamera {
 	
@@ -19,17 +18,9 @@ public class SmoothCamera extends OrthographicCamera {
 	private int minDistance = 1;
 	private int speedFactor = 13;
 	
-	//private GameScreenBigWorld screen = null;
-	
 	public SmoothCamera(float width, float height) {
 		super(width, height);
 	}
-	
-	/*
-	public void setScreen(GameScreenBigWorld gameScreenBigWorld) {
-		this.screen = gameScreenBigWorld;
-	}
-	*/
 	
 	//to restrict zooming based on what it will be
 	public float getTargetZoom() {
@@ -48,13 +39,7 @@ public class SmoothCamera extends OrthographicCamera {
 		    */
 		}
 	}
-	
-	//BUG this does not move the parallax camera
-	public void moveToGotoPoint(MapPoint point) {
-		this.targetPosition.x = point.x;
-		this.targetPosition.y = point.y;
-	}
-	
+
     public void moveToPosition(float x, float y) {
         this.targetPosition.x = x;
         this.targetPosition.y = y;

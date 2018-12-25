@@ -20,16 +20,12 @@ public class RoomDrawer {
         this.libGDXGame = libGDXGame;
         this.world = world;
     }
-    
-    //deltaTime will be used for animating or moving blocks
+
     public void draw(float deltaTime) {
-        
         this.sortTiles(); 
-      
         this.drawTiles();      
     }
-    
-    //sorting will be used later for things like shading blocks
+
     private void sortTiles() {
      
         this.tiles.clear();

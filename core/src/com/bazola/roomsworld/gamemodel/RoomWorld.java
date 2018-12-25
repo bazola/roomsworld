@@ -18,7 +18,6 @@ public class RoomWorld {
         try {
             this.createWorld(levelNumber);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         

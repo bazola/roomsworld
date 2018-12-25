@@ -110,40 +110,16 @@ public class LibGDXGame extends Game {
     }
     
     private void configureInputHandlers() {
-        //this.inputHandler.addProcessor(this.buttonStage);
         this.inputHandler.addProcessor(this.hudStage); 
         this.inputHandler.addProcessor(this.stage);
-        //this.inputHandler.addProcessor(this.flagStage);
         
-        /*
-        this.cameraPanner = new CameraPanner(this.camera);
-        this.cameraPanner.setEnabled(true);
-        //this.cameraPanner.setParallaxCamera(this.parallaxCamera);
-        
-        this.pinchZoomer = new PinchZoomer(this.camera);
-        this.pinchZoomer.setEnabled(true);
-        //this.pinchZoomer.setParallaxCamera(this.parallaxCamera);
-        
-        this.scrollWheelZoomer = new ScrollWheelZoomer(this.camera);
-        this.scrollWheelZoomer.setEnabled(true);
-        //this.scrollWheelZoomer.setParallaxCamera(this.parallaxCamera);
-        
-        this.inputHandler.addProcessor(new GestureDetector(this.cameraPanner));
-        this.inputHandler.addProcessor(new GestureDetector(this.pinchZoomer));
-        this.inputHandler.addProcessor(this.scrollWheelZoomer);
-        */
         Gdx.input.setInputProcessor(this.inputHandler);
     }
     
     public void startGame() {
-        //this.previousPageViewed = pageNumber;
-        //this.menuScreen = null;
-        //this.parallaxCamera.setPosition(0, 0, 0);
         this.drawer = null;
-        //this.personDrawer = null;
         this.stage.clear();
         this.hudStage.clear();
-        //this.buttonStage.clear();
         
         this.gameScreen = new GameScreen(this);
         this.setScreen(this.gameScreen);
@@ -156,10 +132,6 @@ public class LibGDXGame extends Game {
         
         float delta = Gdx.graphics.getDeltaTime();
         
-        if (this.gameScreen != null) {
-            this.gameScreen.update(Math.min(delta, 1/30f));
-        }
-        
         camera.update();
         
         batch.setProjectionMatrix(camera.combined);
@@ -171,20 +143,15 @@ public class LibGDXGame extends Game {
         if (this.personDrawer != null) {
             this.personDrawer.draw(delta);
         }
-        
-        /*
-        if (this.particleDrawer != null) {
-            this.particleDrawer.draw(delta);
-        }
-        */
 
         batch.end();
-        //if (this.gameScreen != null) {
+        if (this.gameScreen != null) {
         //    if (this.gameScreen.getGameState() != GameState.PAUSED &&
         //        this.gameScreen.getGameState() != GameState.ENDED) {
+                this.gameScreen.update(Math.min(delta, 1/30f));
                 stage.act(Math.min(delta, 1 / 30f));
         //    }
-        //}
+        }
         stage.draw();
         
         hudCamera.update();
