@@ -12,6 +12,8 @@ public class RoomWorld {
     
     public Tile[][] level;
     
+    public Player player;
+    
     public RoomWorld(int levelNumber) {
         try {
             this.createWorld(levelNumber);
@@ -19,10 +21,12 @@ public class RoomWorld {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        this.player = new Player(250, 425);
     }
     
     public void update(float delta) {
-        //update player here
+        this.player.update(delta);
     }
     
     public void createWorld(int levelNumber) throws IOException {

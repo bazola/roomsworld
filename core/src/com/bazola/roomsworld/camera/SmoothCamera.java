@@ -54,6 +54,11 @@ public class SmoothCamera extends OrthographicCamera {
 		this.targetPosition.x = point.x;
 		this.targetPosition.y = point.y;
 	}
+	
+    public void moveToPosition(float x, float y) {
+        this.targetPosition.x = x;
+        this.targetPosition.y = y;
+    }
 
 	//when setting positions, set both at once so it does not try to adjust
 	public void setPosition(float xPos, float yPos, float zPos) {

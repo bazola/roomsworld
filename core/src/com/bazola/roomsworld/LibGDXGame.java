@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,11 +34,17 @@ public class LibGDXGame extends Game {
 	public Stage hudStage;
 	
 	public RoomDrawer drawer;
+	public PersonDrawer personDrawer;
 	private GameScreen gameScreen;
 	
 	public InputMultiplexer inputHandler = new InputMultiplexer();
 
+	public Texture alpha;
+	
 	public ObjectMap<TileType, TextureRegion> atlasTextures;
+	public ObjectMap<ImageType, TextureRegion> animationTextures;
+	
+	public ObjectMap<AnimationType, Animation<TextureRegion>> playerAnimations = new ObjectMap<AnimationType, Animation<TextureRegion>>();
 	
 	@Override
 	public void create () {
@@ -50,6 +58,8 @@ public class LibGDXGame extends Game {
         this.camera.setToOrtho(false, STAGE_WIDTH, STAGE_HEIGHT);
         this.batch = new SpriteBatch();
         this.stage = new Stage(new ScreenViewport(camera), batch);
+        
+        this.camera.setZoom(0.4f);
 
         this.hudCamera = new OrthographicCamera(HUD_WIDTH, HUD_HEIGHT);
         this.hudCamera.setToOrtho(false, HUD_WIDTH, HUD_HEIGHT);
@@ -65,13 +75,33 @@ public class LibGDXGame extends Game {
 	
     private void loadAssets()
     {
+        this.alpha = new Texture("alpha.png");
+        
         this.atlasTextures = this.loadAtlasTextures();
+        this.animationTextures = this.loadAnimationTextures();
+        
+        this.playerAnimations.put(AnimationType.PLAYER_RIGHT, AnimationLoader.playerMoveRight(this.animationTextures));
+        this.playerAnimations.put(AnimationType.PLAYER_LEFT, AnimationLoader.playerMoveLeft(this.animationTextures));
+        this.playerAnimations.put(AnimationType.PLAYER_UP, AnimationLoader.playerMoveUp(this.animationTextures));
+        this.playerAnimations.put(AnimationType.PLAYER_DOWN, AnimationLoader.playerMoveDown(this.animationTextures));
+        this.playerAnimations.put(AnimationType.NONE, AnimationLoader.none(this));
     }
     
     private ObjectMap<TileType, TextureRegion> loadAtlasTextures() {
         ObjectMap<TileType, TextureRegion> textures = new ObjectMap<TileType, TextureRegion>();
         TextureAtlas atlas = new TextureAtlas("roomsworld01.atlas");
         for (TileType type : TileType.values()) {
+            AtlasRegion region = atlas.findRegion(type.path);
+            TextureRegion textureRegion = region;
+            textures.put(type, textureRegion);
+        }
+        return textures;
+    }
+    
+    private ObjectMap<ImageType, TextureRegion> loadAnimationTextures() {
+        ObjectMap<ImageType, TextureRegion> textures = new ObjectMap<ImageType, TextureRegion>();
+        TextureAtlas atlas = new TextureAtlas("roomsPlayer01.atlas");
+        for (ImageType type : ImageType.values()) {
             AtlasRegion region = atlas.findRegion(type.path);
             TextureRegion textureRegion = region;
             textures.put(type, textureRegion);
@@ -126,18 +156,23 @@ public class LibGDXGame extends Game {
         
         float delta = Gdx.graphics.getDeltaTime();
         
+        if (this.gameScreen != null) {
+            this.gameScreen.update(Math.min(delta, 1/30f));
+        }
+        
         camera.update();
+        
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         
         if (this.drawer != null) {
             this.drawer.draw(delta);
         }
-        
-        /*
         if (this.personDrawer != null) {
             this.personDrawer.draw(delta);
         }
+        
+        /*
         if (this.particleDrawer != null) {
             this.particleDrawer.draw(delta);
         }
