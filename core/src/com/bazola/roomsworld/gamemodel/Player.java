@@ -1,12 +1,13 @@
 package com.bazola.roomsworld.gamemodel;
 
+import com.badlogic.gdx.math.Polygon;
 import com.bazola.roomsworld.AnimatedCharacter;
 import com.bazola.roomsworld.AnimationType;
 
 public class Player {
 
-    private float xPos;
-    private float yPos;
+    public float xPos;
+    public float yPos;
     
     private float xSpeed = 0;
     private float ySpeed = 0;
@@ -16,6 +17,11 @@ public class Player {
     private final float drag = 0.06f;
     
     public AnimatedCharacter character = null;
+    
+    public final int width = 16;
+    public final int height = 16;
+    
+    private final int boundingOffset = 3;
 
     public Player(float xPos, float yPos) {
         this.xPos = xPos;
@@ -46,6 +52,11 @@ public class Player {
         this.character.setAnimation(AnimationType.PLAYER_DOWN);
     }
     
+    public void hitWall() {
+        this.xSpeed = 0;
+        this.ySpeed = 0;
+    }
+    
     public void update(float delta) {
         this.xPos += this.xSpeed;
         this.yPos += this.ySpeed;
@@ -72,11 +83,21 @@ public class Player {
         }
     }
     
-    public float getXPos() {
-        return this.xPos;
-    }
+    //counter clockwise for the vertexes
+    public Polygon getBounds() {
+        float[] verts = new float[8];
+        verts[0] = this.xPos + this.boundingOffset;
+        verts[1] = this.yPos + this.boundingOffset;
+        
+        verts[2] = (this.xPos + this.boundingOffset) + (this.width - this.boundingOffset * 2);
+        verts[3] = this.yPos + this.boundingOffset;
+        
+        verts[4] = (this.xPos + this.boundingOffset) + (this.width - this.boundingOffset * 2);
+        verts[5] = (this.yPos + this.boundingOffset) + (this.height - this.boundingOffset * 2);
+        
+        verts[6] = this.xPos + this.boundingOffset;
+        verts[7] = (this.yPos + this.boundingOffset) + (this.height - this.boundingOffset * 2);
     
-    public float getYPos() {
-        return this.yPos;
+        return new Polygon(verts);
     }
 }

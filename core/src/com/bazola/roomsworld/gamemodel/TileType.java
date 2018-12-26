@@ -49,7 +49,7 @@ public enum TileType {
     public final String path;
     
     public static Map<Integer, TileType> allTypesAndIds = TileType.getAllTypesAndIds();
-    //public static ObjectSet<TileType> solid = TileType.getSolidTiles();
+    public static ObjectSet<TileType> solid = TileType.getSolidTiles();
     public static ObjectSet<TileType> passable = TileType.getPassableTiles();
     
     private TileType(int id, String path) {
@@ -75,11 +75,25 @@ public enum TileType {
         return tiles;
     }
     
-    /*
     private static ObjectSet<TileType> getSolidTiles() {
         ObjectSet<TileType> tiles = new ObjectSet<TileType>();
+        tiles.add(TOP_LEFT_CORNER_GREY_WALL);
+        tiles.add(GREY_WALL);
+        tiles.add(TOP_RIGHT_CORNER_GREY_WALL);
+        tiles.add(BOTTOM_LEFT_CORNER_GREY_WALL);
+        tiles.add(BOTTOM_RIGHT_CORNER_GREY_WALL);
         tiles.add(CRACKED_GREY_WALL);
+        tiles.add(BLUE_WATER_TOP_LEFT_CORNER);
+        tiles.add(BLUE_WATER_TOP);
+        tiles.add(BLUE_WATER_TOP_RIGHT_CORNER);
+        tiles.add(BLUE_WATER_LEFT);
+        tiles.add(BLUE_WATER);
+        tiles.add(BLUE_WATER_RIGHT);
+        tiles.add(BLUE_WATER_CORNER_BOTTOM_LEFT);
+        tiles.add(BLUE_WATER_CORNER_BOTTOM_RIGHT);
+        tiles.add(BLUE_WATER_BOTTOM_RIGHT_CORNER);
+        tiles.add(BLUE_WATER_BOTTOM_LEFT_CORNER);
+        tiles.add(BLUE_WATER_BOTTOM);
         return tiles;
     }
-    */
 }

@@ -1,0 +1,1 @@
+Make all Polygon creation use the pool to prevent creating new objects

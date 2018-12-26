@@ -40,6 +40,6 @@ public class GameScreen extends ScreenAdapter {
         this.world.update(delta);
         
         this.libGDXGame.camera.updatePosition(delta);
-        this.libGDXGame.camera.moveToPosition(this.world.player.getXPos(), this.world.player.getYPos());
+        this.libGDXGame.camera.moveToPosition(this.world.player.xPos, this.world.player.yPos);
     }
 }

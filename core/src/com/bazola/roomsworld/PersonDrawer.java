@@ -27,8 +27,8 @@ public class PersonDrawer {
         }
 
         this.libGDXGame.batch.draw(this.world.player.character.getRegionForTime(delta),
-                                   this.world.player.getXPos(),
-                                   this.world.player.getYPos(),
+                                   this.world.player.xPos,
+                                   this.world.player.yPos,
                                    this.playerWidth,
                                    this.playerHeight);
                                    

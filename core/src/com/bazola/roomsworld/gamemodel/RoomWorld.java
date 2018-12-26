@@ -7,12 +7,18 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 
 public class RoomWorld {
     
     public Tile[][] level;
     
     public Player player;
+    
+    private final Pool<Intersector.MinimumTranslationVector> mtvPool = Pools.get(Intersector.MinimumTranslationVector.class, 200);
     
     public RoomWorld(int levelNumber) {
         try {
@@ -26,6 +32,8 @@ public class RoomWorld {
     
     public void update(float delta) {
         this.player.update(delta);
+        
+        this.fixPlayerPosForCollisions();
     }
     
     public void createWorld(int levelNumber) throws IOException {
@@ -60,6 +68,38 @@ public class RoomWorld {
             }
             
             yPos++;
+        }
+    }
+    
+    private void fixPlayerPosForCollisions() {
+        Polygon playerBounds = this.player.getBounds();
+            
+        for (Tile[] row : this.level) {
+            for (Tile tile : row) {
+                if (tile == null ||
+                    tile.type == TileType.EMPTY) {
+                    continue;
+                }
+                
+                Intersector.MinimumTranslationVector mtv = this.mtvPool.obtain();
+                if (Intersector.overlapConvexPolygons(tile.bounds, playerBounds, mtv)) {
+                    if (mtv.depth > 0) {
+                        if (TileType.solid.contains(tile.type)) {
+                            float xDiff = mtv.depth * mtv.normal.x;
+                            float yDiff = mtv.depth * mtv.normal.y;
+                            
+                            this.player.xPos = this.player.xPos - xDiff;
+                            this.player.yPos = this.player.yPos - yDiff;
+                            
+                            if (Math.abs(xDiff) > 0 ||
+                                Math.abs(yDiff) > 0) {
+                                this.player.hitWall();
+                            }
+                        }
+                    }
+                }
+                this.mtvPool.free(mtv);       
+            }
         }
     }
 }
