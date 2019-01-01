@@ -1,1 +1,3 @@
 Make all Polygon creation use the pool to prevent creating new objects
+
+Non square maps?

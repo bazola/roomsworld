@@ -15,7 +15,9 @@ public class Tile {
     
     public Polygon bounds;
     
-    public Tile(TileType type, int x, int y) {
+    public int linkedSpecialTile = 0;
+    
+    public Tile(TileType type, int x, int y, int linkedSpecialTile) {
         
         this.position = new MapPoint(x, y);
         
@@ -23,6 +25,8 @@ public class Tile {
         
         this.x = x * WIDTH;
         this.y = y * HEIGHT;
+        
+        this.linkedSpecialTile = linkedSpecialTile;
         
         this.bounds = this.getBounds();
     }

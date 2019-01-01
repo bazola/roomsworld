@@ -18,7 +18,7 @@ public class GameScreen extends ScreenAdapter {
     }
     
     private void createWorld() {
-        this.world = new RoomWorld(1);
+        this.world = new RoomWorld(this);
         this.libGDXGame.drawer = new RoomDrawer(this.libGDXGame, this.world);
         this.libGDXGame.personDrawer = new PersonDrawer(this.libGDXGame, this.world);
     }
@@ -41,5 +41,9 @@ public class GameScreen extends ScreenAdapter {
         
         this.libGDXGame.camera.updatePosition(delta);
         this.libGDXGame.camera.moveToPosition(this.world.player.xPos, this.world.player.yPos);
+    }
+    
+    public void changedRoom(float xPos, float yPos) {
+        this.libGDXGame.camera.setPosition(xPos, yPos, 0);
     }
 }

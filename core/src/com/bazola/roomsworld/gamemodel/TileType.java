@@ -9,15 +9,71 @@ public enum TileType {
     
     EMPTY(0, null),
     
+    STONE_WALL_END_LEFT(10, "tile009"),
+    STONE_WALL_LEFT_RIGHT(11, "tile010"),
+    STONE_WALL_END_RIGHT(12, "tile011"),
+    TOP_LEFT_CORNER_STONE_WALL(13, "tile012"),
+    TOP_RIGHT_CORNER_STONE_WALL(14, "tile013"),
+    
+    STONE_WALL_LEFT_RIGHT_UP(16, "tile015"),
+    
     TOP_LEFT_CORNER_GREY_WALL(18, "tile017"),
     GREY_WALL(19, "tile018"),
     TOP_RIGHT_CORNER_GREY_WALL(20, "tile019"),
+    
+    STONE_WALL_BOTTOM_END(38, "tile037"),
+    STONE_WALL_SINGLE_TOP(39, "tile038"),
+    
+    STONE_WALL_UP_DOWN(41, "tile040"),
+    BOTTOM_LEFT_CORNER_STONE_WALL(42, "tile041"),
+    
+    STONE_WALL_LEFT_EDGE(67, "tile066"),
+    STONE_FLOOR(68, "tile067"),
+    STONE_WALL_RIGHT_EDGE(69, "tile068"),
+    STONE_WALL_SINGLE(70, "tile069"),
+    WOOD_SUPPORT_LEFT(71, "tile070"),
+    WOOD_SUPPORT_MIDDLE(72, "tile071"),
+    WOOD_SUPPORT_LEFT_RIGHT(73, "tile072"),
+    WOOD_SUPPORT_RIGHT(74, "tile073"),
     
     BOTTOM_LEFT_CORNER_GREY_WALL(76, "tile075"),
     
     BOTTOM_RIGHT_CORNER_GREY_WALL(78, "tile077"),
     
+    SMALL_CRACK_WALL(98, "tile097"),
+    BIG_CRACK_WALL(99, "tile098"),
+    
+    STONE_WALL_BOTTOM_LEFT(125, "tile124"),
+    STONE_WALL_BOTTOM_LEFT_RIGHT(126, "tile125"),
+    STONE_WALL_BOTTOM_RIGHT(127, "tile126"),
+    
+    STONE_WALL_BOTTOM_MIDDLE(130, "tile129"),
+    
     CRACKED_GREY_WALL(134, "tile133"),
+    
+    PILLAR_TOP(146, "tile145"),
+    
+    DIRT_WALL_TOP_END(154, "tile153"),
+    DIRT_WALL_LEFT_END(155, "tile154"),
+    DIRT_WALL_LEFT_RIGHT(156, "tile155"),
+    
+    DIRT_WALL_TOP_RIGHT_CORNER(159, "tile158"),
+    
+    PILLAR_BOTTOM(177, "tile176"),
+    
+    DIRT_WALL_UP_DOWN(186, "tile185"),
+    DIRT_WALL_BOTTOM_LEFT_CORNER(187, "tile186"),
+    DIRT_WALL_BOTTOM_RIGHT_CORNER(188, "tile187"),
+    
+    DIRT_WALL_WOOD_LEFT_CORNER(216, "tile215"),
+    DIRT_WALL_WOOD_MIDDLE(217, "tile216"),
+    DIRT_WALL_WOOD_RIGHT_CORNER(219, "tile218"),
+    
+    CAGE_FULL(262, "tile261"),
+    
+    DIRT_WALL_WOOD_LEFT(274, "tile273"),
+    
+    DIRT_WALL_WOOD_RIGHT(277, "tile276"),
     
     BLUE_WATER_TOP_LEFT_CORNER(291, "tile290"),
     BLUE_WATER_TOP(292, "tile291"),
@@ -40,6 +96,7 @@ public enum TileType {
     
     YELLOW_FLOOR_02(425, "tile424"),
     
+    YELLOW_CHECKERED_FLOOR_FOUR(452, "tile451"),
     YELLOW_CHECKERED_FLOOR(453, "tile452"),
     YELLOW_CHECKERED_FLOOR_BIG(454, "tile453"),
     
@@ -50,7 +107,6 @@ public enum TileType {
     
     public static Map<Integer, TileType> allTypesAndIds = TileType.getAllTypesAndIds();
     public static ObjectSet<TileType> solid = TileType.getSolidTiles();
-    public static ObjectSet<TileType> passable = TileType.getPassableTiles();
     
     private TileType(int id, String path) {
         this.id = id;
@@ -63,16 +119,6 @@ public enum TileType {
             types.put(type.id, type);
         }
         return types;
-    }
-    
-    private static ObjectSet<TileType> getPassableTiles() {
-        ObjectSet<TileType> tiles = new ObjectSet<TileType>();
-        tiles.add(YELLOW_FLOOR_01);
-        tiles.add(YELLOW_FLOOR_02);
-        tiles.add(YELLOW_CHECKERED_FLOOR);
-        tiles.add(YELLOW_CHECKERED_FLOOR_BIG);
-        tiles.add(YELLOW_CHECKERED_FLOOR_FANCY);
-        return tiles;
     }
     
     private static ObjectSet<TileType> getSolidTiles() {
@@ -94,6 +140,44 @@ public enum TileType {
         tiles.add(BLUE_WATER_BOTTOM_RIGHT_CORNER);
         tiles.add(BLUE_WATER_BOTTOM_LEFT_CORNER);
         tiles.add(BLUE_WATER_BOTTOM);
+        tiles.add(STONE_WALL_LEFT_RIGHT);
+        tiles.add(TOP_LEFT_CORNER_STONE_WALL);
+        tiles.add(TOP_RIGHT_CORNER_STONE_WALL);
+        tiles.add(STONE_WALL_UP_DOWN);
+        tiles.add(PILLAR_TOP);
+        tiles.add(PILLAR_BOTTOM);
+        tiles.add(STONE_WALL_LEFT_RIGHT_UP);
+        tiles.add(STONE_WALL_END_LEFT);
+        tiles.add(STONE_WALL_END_RIGHT);
+        tiles.add(WOOD_SUPPORT_LEFT);
+        tiles.add(WOOD_SUPPORT_MIDDLE);
+        tiles.add(WOOD_SUPPORT_LEFT_RIGHT);
+        tiles.add(WOOD_SUPPORT_RIGHT);
+        tiles.add(STONE_WALL_BOTTOM_LEFT);
+        tiles.add(STONE_WALL_BOTTOM_LEFT_RIGHT);
+        tiles.add(STONE_WALL_BOTTOM_RIGHT);
+        tiles.add(BOTTOM_LEFT_CORNER_STONE_WALL);
+        tiles.add(STONE_WALL_SINGLE);
+        tiles.add(STONE_WALL_SINGLE_TOP);
+        tiles.add(STONE_WALL_LEFT_EDGE);
+        tiles.add(SMALL_CRACK_WALL);
+        tiles.add(BIG_CRACK_WALL);
+        tiles.add(STONE_WALL_RIGHT_EDGE);
+        tiles.add(STONE_WALL_BOTTOM_MIDDLE);
+        tiles.add(STONE_WALL_BOTTOM_END);
+        tiles.add(CAGE_FULL);
+        tiles.add(DIRT_WALL_TOP_END);
+        tiles.add(DIRT_WALL_UP_DOWN);
+        tiles.add(DIRT_WALL_BOTTOM_LEFT_CORNER);
+        tiles.add(DIRT_WALL_BOTTOM_RIGHT_CORNER);
+        tiles.add(DIRT_WALL_LEFT_RIGHT);
+        tiles.add(DIRT_WALL_LEFT_END);
+        tiles.add(DIRT_WALL_WOOD_LEFT);
+        tiles.add(DIRT_WALL_WOOD_RIGHT);
+        tiles.add(DIRT_WALL_WOOD_LEFT_CORNER);
+        tiles.add(DIRT_WALL_WOOD_MIDDLE);
+        tiles.add(DIRT_WALL_WOOD_RIGHT_CORNER);
+        tiles.add(DIRT_WALL_TOP_RIGHT_CORNER);
         return tiles;
     }
 }
