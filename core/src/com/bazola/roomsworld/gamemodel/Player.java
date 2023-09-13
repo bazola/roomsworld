@@ -100,4 +100,9 @@ public class Player {
     
         return new Polygon(verts);
     }
+
+    // attack function
+    public void attack() {
+        // TODO
+    }
 }

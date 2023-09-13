@@ -108,6 +108,17 @@ public class LibGDXGame extends Game {
         }
         return textures;
     }
+
+    private ObjectMap<AnimationType, Animation<TextureRegion>> loadSlashAnimations() {
+        ObjectMap<AnimationType, Animation<TextureRegion>> slashAnimations = new ObjectMap<AnimationType, Animation<TextureRegion>>();
+        TextureAtlas atlas = new TextureAtlas("slash.atlas");
+        for (AnimationType type : AnimationType.values()) {
+            AtlasRegion region = atlas.findRegion(type.path);
+            TextureRegion textureRegion = region;
+            slashAnimations.put(type, new Animation<TextureRegion>(1f, textureRegion));
+        }
+        return textures;
+    }
     
     private void configureInputHandlers() {
         this.inputHandler.addProcessor(this.hudStage); 
