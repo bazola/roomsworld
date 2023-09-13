@@ -1,0 +1,34 @@
+
+slash.png
+size: 64,16
+format: RGBA8888
+filter: Linear,Nearest
+repeat: none
+slash1
+    rotate: false
+    xy: 1, 1
+    size: 64, 64
+    orig: 64, 64
+    offset: 0, 0
+    index: -1
+slash2
+    rotate: false
+    xy: 17, 1
+    size: 64, 64
+    orig: 64, 64
+    offset: 0, 0
+    index: -1
+slash3
+    rotate: false
+    xy: 33, 1
+    size: 64, 64
+    orig: 64, 64
+    offset: 0, 0
+    index: -1
+slash4
+    rotate: false
+    xy: 49, 1
+    size: 64, 64
+    orig: 64, 64
+    offset: 0, 0
+    index: -1
